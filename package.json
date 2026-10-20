@@ -1,0 +1,37 @@
+{
+  "name": "lotofacil-quant-engine",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Sistema de análise estatística e otimização combinatória para a Lotofácil (offline-first, auditável, determinístico).",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check src tests scripts",
+    "lint:fix": "biome check --write src tests scripts",
+    "test": "bun test",
+    "test:unit": "bun test tests/unit",
+    "test:integration": "bun test tests/integration",
+    "test:regression": "bun test tests/regression",
+    "icons": "bun scripts/generate-icons.ts",
+    "gate": "bun run typecheck && bun run lint && bun test && bun run build",
+    "tauri": "tauri"
+  },
+  "dependencies": {
+    "fflate": "^0.8.3"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.15",
+    "@fontsource-variable/inter": "^5.3.0",
+    "@fontsource-variable/jetbrains-mono": "^5.3.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "@tauri-apps/cli": "^2.12.1",
+    "@types/bun": "^1.4.2",
+    "fake-indexeddb": "^6.2.5",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.2"
+  }
+}

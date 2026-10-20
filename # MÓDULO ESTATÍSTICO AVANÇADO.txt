@@ -1,0 +1,743 @@
+# MÓDULO ESTATÍSTICO AVANÇADO — CICLOS, LINHAS, RELACIONAMENTOS E DISTRIBUIÇÃO
+
+Além dos módulos já definidos no projeto, implementar obrigatoriamente um núcleo específico para analisar a estrutura do volante da Lotofácil, considerando as 25 dezenas, as 5 linhas do volante, o comportamento ao longo dos ciclos e os relacionamentos entre dezenas.
+
+## 1. RASTREAMENTO DE CICLO DAS 25 DEZENAS
+
+Criar um `CycleTracker` responsável por acompanhar a cobertura das 25 dezenas ao longo dos concursos.
+
+O sistema deve identificar:
+
+* início do ciclo atual;
+* concurso inicial e final de cada ciclo histórico;
+* quantidade de concursos necessários para cobrir as 25 dezenas;
+* dezenas já ocorridas no ciclo;
+* dezenas ainda ausentes no ciclo;
+* quantidade de aparições de cada dezena no ciclo;
+* atraso atual de cada dezena;
+* sequência de aparecimentos e ausências;
+* participação percentual de cada dezena no ciclo;
+* número de ciclos completos analisados;
+* média, mediana, mínimo e máximo de duração dos ciclos;
+* distribuição histórica da duração dos ciclos.
+
+### Definição do ciclo
+
+O ciclo deve ser calculado de forma reproduzível:
+
+Um ciclo inicia após o fechamento do ciclo anterior e termina quando as 25 dezenas tiverem ocorrido pelo menos uma vez no conjunto de concursos analisado.
+
+Não utilizar uma definição subjetiva.
+
+O sistema deve preservar o histórico completo dos ciclos para permitir comparação entre:
+
+* ciclo atual;
+* ciclos anteriores;
+* comportamento médio;
+* comportamento mínimo/máximo;
+* comportamento das dezenas no fechamento dos ciclos.
+
+### Painel do ciclo atual
+
+Exibir visualmente:
+
+`25/25` → ciclo completo
+
+ou
+
+`21/25` → 4 dezenas ainda ausentes
+
+Apresentar uma matriz das dezenas:
+
+| Dezena | Aparições no ciclo | Última ocorrência | Atraso | Status    |
+| ------ | -----------------: | ----------------: | -----: | --------- |
+| 01     |                  4 |        concurso X |      0 | Frequente |
+| 02     |                  1 |        concurso X |      5 | Atrasada  |
+| ...    |                ... |               ... |    ... | ...       |
+
+Os rótulos devem ser derivados dos dados e dos parâmetros configuráveis, nunca definidos arbitrariamente.
+
+---
+
+# 2. ANÁLISE DAS 5 LINHAS DO VOLANTE
+
+Criar um `LineDistributionAnalyzer`.
+
+Considerar a estrutura padrão:
+
+Linha 1 → 01–05
+Linha 2 → 06–10
+Linha 3 → 11–15
+Linha 4 → 16–20
+Linha 5 → 21–25
+
+Para cada concurso histórico calcular:
+
+* quantidade de dezenas por linha;
+* distribuição das 15 dezenas entre as 5 linhas;
+* frequência de cada padrão de distribuição;
+* média por linha;
+* desvio da média;
+* padrões mais frequentes;
+* padrões menos frequentes;
+* variação histórica;
+* distribuição acumulada por linha.
+
+Exemplos de vetores válidos para 15 dezenas:
+
+`3-3-3-3-3`
+
+`2-3-3-3-4`
+
+`2-2-3-4-4`
+
+`2-4-3-2-4`
+
+etc.
+
+Não assumir que `3-3-3-3-3` é obrigatoriamente melhor.
+
+O sistema deve descobrir, a partir dos dados, quais estruturas são mais comuns e quais são raras.
+
+---
+
+# 3. CONSTRAINT DE LINHAS PARA GERAÇÃO DE JOGOS
+
+Adicionar ao otimizador uma restrição configurável:
+
+> Cada linha deve conter entre 2 e 4 dezenas.
+
+Isso deve funcionar como um **filtro/objetivo configurável**, e não como regra matemática universal.
+
+O sistema deve permitir:
+
+### Modo Livre
+
+Sem restrição de linhas.
+
+### Modo Equilibrado
+
+Cada linha entre 2 e 4 dezenas.
+
+### Modo Estatístico
+
+Priorizar distribuições de linhas historicamente mais frequentes.
+
+### Modo Híbrido
+
+Combinar:
+
+* equilíbrio entre linhas;
+* frequência histórica dos padrões;
+* cobertura de dezenas;
+* diversidade entre jogos.
+
+O algoritmo deve comparar o vetor de linhas do jogo candidato com os vetores históricos e produzir um `LineBalanceScore`.
+
+---
+
+# 4. MOVIMENTAÇÃO DAS LINHAS
+
+Não analisar somente a distribuição de uma linha isoladamente.
+
+Criar análise temporal para verificar a movimentação das linhas:
+
+* linha com aumento de frequência;
+* linha com redução de frequência;
+* alternância entre linhas;
+* persistência;
+* repetição do padrão do concurso anterior;
+* mudança brusca de distribuição;
+* sequência de concursos com concentração em determinadas linhas.
+
+Exemplo:
+
+Concurso A:
+`3-3-4-2-3`
+
+Concurso B:
+`2-4-3-3-3`
+
+Concurso C:
+`3-2-3-4-3`
+
+O sistema deve estudar essa movimentação como dado histórico.
+
+Não afirmar que uma linha "está prestes a sair".
+
+Usar a informação somente para:
+
+* diversificação;
+* construção da carteira;
+* análise de cenários;
+* comparação histórica.
+
+---
+
+# 5. MATRIZ DE RELACIONAMENTO ENTRE DEZENAS
+
+Criar um `PairRelationshipAnalyzer`.
+
+Para todas as combinações das 25 dezenas, calcular a associação histórica.
+
+Existem:
+
+`C(25,2) = 300`
+
+pares possíveis.
+
+Para cada par `(A,B)` registrar:
+
+* número de concursos em que A apareceu;
+* número de concursos em que B apareceu;
+* número de concursos em que A e B apareceram juntas;
+* frequência conjunta;
+* frequência esperada;
+* diferença observado × esperado;
+* lift;
+* Jaccard;
+* atraso conjunto;
+* estabilidade histórica;
+* significância estatística quando aplicável.
+
+---
+
+# 6. DEZENAS "CASADAS"
+
+Criar o conceito operacional de:
+
+`CASADAS`
+
+São pares que apresentam associação conjunta acima do esperado dentro da amostra e que permanecem relativamente estáveis em diferentes períodos.
+
+Não classificar um par como "casado" apenas porque teve muitas ocorrências.
+
+A classificação deve considerar:
+
+* quantidade mínima de concursos;
+* frequência individual das dezenas;
+* frequência conjunta;
+* comparação com expectativa;
+* estabilidade em janelas temporais;
+* teste estatístico;
+* correção para múltiplas comparações.
+
+Exibir:
+
+`01 + 07 → forte associação histórica`
+
+porém deixar explícito:
+
+> Associação histórica não significa aumento da probabilidade matemática no próximo concurso.
+
+---
+
+# 7. DEZENAS "BRIGADAS"
+
+Criar o conceito operacional de:
+
+`BRIGADAS`
+
+São pares que ocorreram juntos menos vezes do que seria esperado dentro da amostra, desde que essa diferença apresente evidência estatística suficiente e não seja mero ruído amostral.
+
+Não classificar como "brigadas" pares com baixa frequência simplesmente porque são números pouco frequentes.
+
+O algoritmo deve separar:
+
+### Baixa ocorrência por baixa frequência individual
+
+de
+
+### Baixa associação conjunta
+
+Essa distinção é obrigatória.
+
+---
+
+# 8. SIGNIFICÂNCIA E CONTROLE DE FALSOS POSITIVOS
+
+Como existem 300 pares, o sistema NÃO deve marcar dezenas "casadas" ou "brigadas" apenas com base em ranking bruto.
+
+Implementar:
+
+* tamanho mínimo de amostra;
+* teste estatístico apropriado;
+* intervalo de confiança quando aplicável;
+* p-value;
+* correção para múltiplas comparações, preferencialmente Benjamini-Hochberg;
+* nível de confiança configurável.
+
+Além disso, permitir análise em janelas:
+
+* histórico completo;
+* últimos 500 concursos;
+* últimos 200;
+* últimos 100;
+* ciclo atual;
+* últimos N concursos configuráveis.
+
+Isso permitirá descobrir se uma associação é:
+
+`Histórica`
+
+`Recente`
+
+`Persistente`
+
+`Temporária`
+
+ou
+
+`Sem evidência suficiente`.
+
+---
+
+# 9. DEZENAS FREQUENTES, NEUTRAS E ATRASADAS
+
+Criar um `NumberBehaviorAnalyzer`.
+
+Para cada dezena calcular:
+
+* frequência total;
+* frequência percentual;
+* frequência recente;
+* frequência no ciclo atual;
+* atraso atual;
+* maior atraso histórico;
+* atraso médio;
+* frequência ponderada por recência;
+* tendência;
+* desvio em relação à expectativa;
+* score de frequência;
+* score de atraso;
+* score combinado.
+
+Classificar dinamicamente:
+
+`FREQUENTE`
+
+`NEUTRA`
+
+`ATRASADA`
+
+Os thresholds devem ser configuráveis e documentados.
+
+Não usar simplesmente:
+
+> "atrasada = está há X concursos sem sair"
+
+sem considerar o histórico e a distribuição esperada.
+
+---
+
+# 10. DISTRIBUIÇÃO DAS DEZENAS AUSENTES ENTRE OS JOGOS
+
+Adicionar ao `PortfolioOptimizer` um módulo:
+
+`AbsenceDistributionOptimizer`
+
+Objetivo:
+
+Não concentrar todas as dezenas ausentes, atrasadas ou pouco utilizadas em um único jogo.
+
+Em uma carteira de múltiplos jogos, o algoritmo deve procurar distribuir a exposição dessas dezenas entre os jogos.
+
+Exemplo conceitual:
+
+Supondo que existam 5 dezenas que estão ausentes há vários concursos:
+
+`03, 08, 14, 19, 24`
+
+Em vez de obrigatoriamente colocar:
+
+`03 + 08 + 14 + 19 + 24`
+
+em todos os jogos,
+
+o sistema pode criar uma distribuição de exposição:
+
+Jogo 1:
+`03 + 14`
+
+Jogo 2:
+`08 + 19`
+
+Jogo 3:
+`14 + 24`
+
+Jogo 4:
+`03 + 19`
+
+Jogo 5:
+`08 + 24`
+
+etc.
+
+A quantidade de vezes que cada dezena será exposta deve ser otimizada de acordo com:
+
+* atraso;
+* frequência recente;
+* ciclo;
+* frequência histórica;
+* importância estatística;
+* diversidade da carteira;
+* orçamento;
+* número total de jogos.
+
+---
+
+# 11. COBERTURA DAS 25 DEZENAS ENTRE OS JOGOS
+
+Para uma carteira de N jogos, calcular uma matriz:
+
+`25 dezenas × N jogos`
+
+onde cada célula informa:
+
+`1 = dezena presente`
+
+`0 = dezena ausente`
+
+A partir dela calcular:
+
+* quantos jogos cada dezena aparece;
+* distribuição de exposição;
+* dezenas superconcentradas;
+* dezenas sub-representadas;
+* cobertura total das 25 dezenas;
+* índice de equilíbrio da exposição.
+
+Criar:
+
+`CoverageScore`
+
+e
+
+`ExposureBalanceScore`.
+
+Permitir configurar limites como:
+
+* mínimo de aparições por dezena;
+* máximo de aparições por dezena;
+* cobertura obrigatória das 25 dezenas;
+* cobertura preferencial;
+* concentração máxima.
+
+Esses limites devem funcionar como parâmetros do otimizador.
+
+---
+
+# 12. COMBINAÇÃO COM O MODELO 5-3-2
+
+Integrar esse módulo ao conceito anterior de carteira:
+
+### Grupo A — Perfil estatístico principal
+
+5 jogos
+
+### Grupo B — Perfil equilibrado
+
+3 jogos
+
+### Grupo C — Perfil alternativo/contrarian
+
+2 jogos
+
+Mas agora cada grupo pode utilizar diferentes combinações de:
+
+* frequência;
+* atraso;
+* ciclo;
+* linhas;
+* casadas;
+* brigadas;
+* ausência;
+* cobertura;
+* distância de Hamming.
+
+Importante:
+
+O modelo `5-3-2` deve ser tratado como uma estratégia de composição da carteira, e não como uma porcentagem comprovadamente superior.
+
+---
+
+# 13. SISTEMA DE PONTUAÇÃO DO JOGO
+
+Criar um score multiobjetivo para cada jogo candidato:
+
+`GameScore`
+
+Exemplo de componentes:
+
+* FrequencyScore
+* DelayScore
+* CycleScore
+* LineBalanceScore
+* PairRelationshipScore
+* CasadasScore
+* BrigadasScore
+* CoverageScore
+* ExposureBalanceScore
+* HammingDiversityScore
+* HistoricalStructureScore
+
+Todos os pesos devem ser configuráveis.
+
+O sistema deve mostrar não apenas:
+
+`Score = 87.4`
+
+mas também:
+
+`Frequência: 82`
+
+`Ciclo: 91`
+
+`Linhas: 88`
+
+`Relacionamentos: 76`
+
+`Cobertura: 94`
+
+`Diversidade: 90`
+
+Isso torna o resultado auditável e explicável.
+
+---
+
+# 14. O ALGORITMO NÃO DEVE FORÇAR TODOS OS PADRÕES AO MESMO TEMPO
+
+Criar estratégias independentes e comparáveis:
+
+### Estratégia A — Estatística
+
+Prioriza frequência e estrutura histórica.
+
+### Estratégia B — Ciclo
+
+Prioriza cobertura e estado atual do ciclo.
+
+### Estratégia C — Linhas
+
+Prioriza padrões de distribuição pelas 5 linhas.
+
+### Estratégia D — Relacionamentos
+
+Prioriza associações entre dezenas.
+
+### Estratégia E — Diversificação
+
+Prioriza cobertura e baixa sobreposição entre jogos.
+
+### Estratégia F — Híbrida
+
+Combina todos os fatores.
+
+O usuário deve conseguir comparar as carteiras produzidas por cada estratégia.
+
+---
+
+# 15. WALK-FORWARD BACKTEST OBRIGATÓRIO
+
+O sistema deverá validar se esses novos módulos realmente acrescentam valor histórico.
+
+Para cada ponto do passado:
+
+1. utilizar somente concursos anteriores ao ponto de teste;
+2. gerar a carteira;
+3. congelar os dados;
+4. comparar contra o concurso real seguinte;
+5. registrar quantidade de acertos;
+6. repetir em muitos pontos históricos.
+
+Comparar obrigatoriamente:
+
+### Benchmark 1
+
+10 jogos aleatórios.
+
+### Benchmark 2
+
+10 jogos aleatórios respeitando apenas 2–4 dezenas por linha.
+
+### Benchmark 3
+
+Carteira 5-3-2.
+
+### Benchmark 4
+
+5-3-2 + linhas.
+
+### Benchmark 5
+
+5-3-2 + ciclo.
+
+### Benchmark 6
+
+5-3-2 + relacionamentos.
+
+### Benchmark 7
+
+Modelo híbrido completo.
+
+Medir:
+
+* média de acertos;
+* mediana;
+* distribuição de 11, 12, 13, 14 e 15 acertos;
+* pior resultado;
+* melhor resultado;
+* custo total;
+* retorno teórico conforme tabela configurada;
+* cobertura das dezenas;
+* sobreposição entre jogos;
+* estabilidade por período.
+
+O objetivo é descobrir quais componentes realmente melhoram a qualidade estrutural da carteira histórica.
+
+Não declarar que uma estratégia é "melhor" apenas porque apresentou um resultado positivo em uma pequena amostra.
+
+---
+
+# 16. TESTE DE ABLAÇÃO
+
+Implementar um modo científico de comparação:
+
+`FULL MODEL`
+
+versus
+
+`FULL - CYCLE`
+
+`FULL - LINES`
+
+`FULL - PAIRS`
+
+`FULL - DELAY`
+
+`FULL - COVERAGE`
+
+etc.
+
+Assim será possível identificar exatamente qual módulo está contribuindo para o desempenho histórico e qual apenas adiciona complexidade.
+
+---
+
+# 17. INTERFACE — MAPA 5×5
+
+Criar uma visualização gráfica das 25 dezenas:
+
+01 02 03 04 05
+06 07 08 09 10
+11 12 13 14 15
+16 17 18 19 20
+21 22 23 24 25
+
+Cada dezena poderá apresentar indicadores visuais para:
+
+* frequência;
+* atraso;
+* status no ciclo;
+* quantidade de aparições no ciclo;
+* relacionamento com outras dezenas;
+* quantidade de jogos em que foi utilizada.
+
+Ao selecionar uma dezena, mostrar suas principais:
+
+`CASADAS`
+
+`BRIGADAS`
+
+`FREQUENTES`
+
+`ATRASADAS`
+
+---
+
+# 18. EXPLICAÇÃO OBRIGATÓRIA DOS RESULTADOS
+
+Para cada carteira gerada, o sistema deve responder:
+
+> Por que esta dezena foi selecionada?
+
+> Por que esta dezena não apareceu neste jogo?
+
+> Quantas vezes esta dezena será distribuída na carteira?
+
+> Qual é a distribuição das 15 dezenas pelas 5 linhas?
+
+> Quantas dezenas do ciclo atual estão representadas?
+
+> Quantas dezenas atrasadas estão presentes?
+
+> Existem pares historicamente associados?
+
+> Existem pares com baixa associação?
+
+> Qual a cobertura das 25 dezenas nos 10 jogos?
+
+> Qual a sobreposição média entre os jogos?
+
+> Qual foi a contribuição de cada regra para a pontuação final?
+
+---
+
+# 19. REGRA FUNDAMENTAL DE INTERPRETAÇÃO
+
+O sistema deve diferenciar explicitamente:
+
+### Probabilidade matemática
+
+Todos os jogos individuais de 15 dezenas possuem a mesma probabilidade de serem sorteados em um concurso justo.
+
+### Análise estatística histórica
+
+Serve para estudar padrões passados.
+
+### Otimização de carteira
+
+Serve para distribuir diferentes jogos de forma racional, reduzir redundância e aumentar cobertura estrutural.
+
+### Backtest
+
+Serve para verificar se determinadas heurísticas produziram resultados historicamente diferentes do benchmark.
+
+Nunca apresentar:
+
+* "dezena atrasada tem mais chance de sair";
+* "dezena quente está prestes a sair";
+* "dezenas casadas garantem acerto";
+* "dezenas brigadas não podem sair juntas";
+* "equilíbrio de linhas aumenta a probabilidade matemática".
+
+Quando não houver evidência estatística robusta, mostrar:
+
+`SEM EVIDÊNCIA SUFICIENTE`
+
+---
+
+# 20. OBJETIVO FINAL DO MOTOR
+
+O objetivo não é tentar prever o próximo concurso.
+
+O objetivo é construir uma carteira de jogos:
+
+* estatisticamente auditável;
+* diversificada;
+* com boa cobertura;
+* com baixa redundância;
+* equilibrada estruturalmente;
+* baseada em dados históricos;
+* validada por walk-forward backtesting;
+* configurável;
+* explicável;
+* reproduzível;
+* matematicamente honesta.
+
+Nome conceitual do módulo:
+
+`Cycle + Grid + Relationship + Coverage Engine`
+
+Nome em português na interface:
+
+**Ciclo + Linhas + Relacionamentos + Cobertura**

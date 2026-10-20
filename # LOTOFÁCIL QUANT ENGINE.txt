@@ -1,0 +1,1702 @@
+# LOTOFÁCIL QUANT ENGINE
+
+## PROMPT MESTRE DE ENGENHARIA — CLAUDE OPUS 5.5 HIGH
+
+Você é o **Arquiteto-Chefe, Engenheiro de Software Sênior, Cientista Computacional e Especialista em Estatística, Teoria das Probabilidades, Processos Estocásticos, Algoritmos Combinatórios e Otimização** responsável por transformar este projeto em uma aplicação profissional denominada:
+
+# LOTOFÁCIL QUANT ENGINE
+
+O sistema deverá realizar:
+
+* ingestão e validação de históricos da Lotofácil;
+* análise estatística;
+* análise probabilística;
+* processos estocásticos;
+* análise de atrasos;
+* Markov;
+* coocorrência;
+* covariância;
+* entropia espacial;
+* filtragem combinatória;
+* otimização por diversidade;
+* distância de Hamming;
+* estratégias de cobertura;
+* geração de jogos configuráveis;
+* exportação;
+* funcionamento offline;
+* instalação como PWA;
+* empacotamento para Windows e Android.
+
+O produto deve ser **auditável, reproduzível, determinístico, modular, leve e matematicamente consistente**.
+
+---
+
+# 0. MANDATO PRINCIPAL
+
+Não trate este projeto como um simples "gerador de números".
+
+Trate-o como um:
+
+> **Sistema de análise estatística e otimização combinatória para construção de conjuntos de combinações sob restrições configuráveis.**
+
+O sistema não deve alegar prever o próximo sorteio, descobrir dezenas "garantidas", aumentar matematicamente a probabilidade fundamental de uma combinação individual ou produzir vantagem probabilística comprovada sem evidência estatística adequada.
+
+Sempre diferenciar:
+
+```text
+FATO MATEMÁTICO
+ANÁLISE ESTATÍSTICA
+HEURÍSTICA
+OTIMIZAÇÃO
+ASSUNÇÃO
+```
+
+Não misturar esses conceitos.
+
+---
+
+# 1. PRIORIDADE ABSOLUTA: COMPREENDER O PROJETO ANTES DE CODIFICAR
+
+Antes de criar ou alterar qualquer arquivo:
+
+1. Inspecione completamente o projeto atual.
+2. Identifique todas as pastas.
+3. Identifique todos os arquivos relevantes.
+4. Identifique dependências.
+5. Identifique o sistema de build.
+6. Identifique a arquitetura existente.
+7. Identifique persistência existente.
+8. Identifique qualquer código reutilizável.
+9. Identifique possíveis conflitos arquiteturais.
+10. Identifique funcionalidades que não devem ser quebradas.
+
+Não comece implementando imediatamente.
+
+Primeiro construa mentalmente um modelo completo do sistema.
+
+Depois implemente.
+
+Não faça reescritas desnecessárias.
+
+---
+
+# 2. STACK SOBERANA
+
+Utilize preferencialmente:
+
+```text
+HTML5
+CSS3
+Tailwind CSS
+TypeScript
+Vite
+Bun
+IndexedDB
+Web Workers
+PWA
+Tauri 2
+```
+
+Evitar:
+
+```text
+React
+Vue
+Angular
+Svelte
+Next.js
+Streamlit
+FastAPI
+Backend Python obrigatório
+```
+
+Não introduza frameworks ou dependências grandes sem necessidade objetiva.
+
+A aplicação deve continuar:
+
+* leve;
+* rápida;
+* offline-first;
+* adequada a computadores modestos;
+* adequada a smartphones Android.
+
+---
+
+# 3. PRINCÍPIO ARQUITETURAL
+
+Separar estritamente:
+
+```text
+UI
+↓
+Application Layer
+↓
+Domain
+↓
+Scientific Engine
+↓
+Combinatorial Engine
+↓
+Persistence
+```
+
+A interface jamais deve conter fórmulas estatísticas complexas.
+
+O motor matemático deve funcionar sem depender da DOM.
+
+Os algoritmos devem ser construídos como funções puras sempre que possível.
+
+---
+
+# 4. ARQUITETURA SUGERIDA
+
+Utilizar uma estrutura semelhante a:
+
+```text
+src/
+
+├── app/
+│
+├── components/
+│
+├── pages/
+│
+├── styles/
+│
+├── core/
+│   │
+│   ├── domain/
+│   │   ├── constants.ts
+│   │   ├── types.ts
+│   │   └── models.ts
+│   │
+│   ├── statistics/
+│   │   ├── combinations.ts
+│   │   ├── hypergeometric.ts
+│   │   ├── theoretical.ts
+│   │   ├── chiSquare.ts
+│   │   ├── zscore.ts
+│   │   ├── delays.ts
+│   │   ├── markov.ts
+│   │   ├── cooccurrence.ts
+│   │   ├── covariance.ts
+│   │   └── entropy.ts
+│   │
+│   ├── combinatorial/
+│   │   ├── filters.ts
+│   │   ├── candidateGenerator.ts
+│   │   ├── scoring.ts
+│   │   ├── hamming.ts
+│   │   ├── coverage.ts
+│   │   ├── optimizer.ts
+│   │   └── validator.ts
+│   │
+│   └── data/
+│       ├── parser.ts
+│       ├── validator.ts
+│       └── normalizer.ts
+│
+├── services/
+│   ├── analysisService.ts
+│   ├── generationService.ts
+│   ├── reportService.ts
+│   ├── exportService.ts
+│   └── backupService.ts
+│
+├── storage/
+│   ├── database.ts
+│   ├── schema.ts
+│   ├── migrations/
+│   └── repositories/
+│
+├── workers/
+│   └── analytics.worker.ts
+│
+└── main.ts
+```
+
+Você pode alterar a estrutura quando existir motivo técnico real.
+
+Não altere por preferência estética.
+
+---
+
+# 5. CONSTANTES MATEMÁTICAS
+
+Universo:
+
+```text
+N = 25
+n = 15
+```
+
+Dezenas:
+
+```text
+1..25
+```
+
+Primos:
+
+```text
+2,3,5,7,11,13,17,19,23
+```
+
+Fibonacci:
+
+```text
+1,2,3,5,8,13,21
+```
+
+Moldura:
+
+```text
+1,2,3,4,5
+6,10
+11,15
+16,20
+21,22,23,24,25
+```
+
+Miolo:
+
+```text
+7,8,9
+12,13,14
+17,18,19
+```
+
+Essas constantes devem existir em um único ponto do sistema.
+
+---
+
+# 6. REPRESENTAÇÃO DAS DEZENAS
+
+Sempre representar uma aposta de 15 dezenas como estrutura ordenada.
+
+Exemplo:
+
+```text
+01 03 05 06 07 08 10 11 13 15 17 20 22 24 25
+```
+
+Internamente:
+
+```typescript
+number[]
+```
+
+com as seguintes garantias:
+
+* 15 elementos;
+* valores 1..25;
+* sem duplicatas;
+* ordem crescente.
+
+---
+
+# 7. INGESTÃO DE HISTÓRICO
+
+Aceitar:
+
+```text
+.xlsx
+.csv
+```
+
+Identificar:
+
+```text
+Bola1 ... Bola15
+```
+
+ou equivalentes claramente detectáveis.
+
+Validar:
+
+* quantidade de dezenas;
+* duplicidade;
+* intervalo;
+* ordenação;
+* concurso;
+* data;
+* concursos duplicados;
+* linhas incompletas;
+* registros inválidos.
+
+Nunca ignorar silenciosamente dados incorretos.
+
+Produzir:
+
+```text
+ValidationReport
+```
+
+contendo:
+
+```text
+totalRows
+validRows
+invalidRows
+duplicates
+invalidNumbers
+missingValues
+orderingIssues
+dateIssues
+contestIssues
+warnings
+errors
+```
+
+---
+
+# 8. PROBABILIDADE COMBINATÓRIA
+
+Implementar:
+
+$$
+C(n,k)=\frac{n!}{k!(n-k)!}
+$$
+
+com método numericamente seguro.
+
+Calcular:
+
+$$
+C(25,15)=3.268.760
+$$
+
+Probabilidade de uma combinação específica:
+
+$$
+P=\frac1{3.268.760}
+$$
+
+Implementar também:
+
+$$
+P(X=k)=
+\frac{C(K,k)C(N-K,n-k)}
+{C(N,n)}
+$$
+
+Não cometer o erro conceitual de dizer que a distribuição hipergeométrica representa a probabilidade de uma combinação específica.
+
+---
+
+# 9. EXPECTATIVAS TEÓRICAS
+
+Implementar matematicamente:
+
+### Soma
+
+$$
+E[S]=15\cdot13=195
+$$
+
+### Repetição
+
+$$
+E[X]=\frac{15\cdot15}{25}=9
+$$
+
+### Primos
+
+$$
+E[X]=15\cdot\frac9{25}=5,4
+$$
+
+### Fibonacci
+
+$$
+E[X]=15\cdot\frac7{25}=4,2
+$$
+
+### Moldura
+
+$$
+E[X]=15\cdot\frac{16}{25}=9,6
+$$
+
+### Pares
+
+Como existem 12 pares:
+
+$$
+E[X]=15\cdot\frac{12}{25}=7,2
+$$
+
+Calcular também variâncias e desvios padrão corretamente usando amostragem sem reposição.
+
+Não assumir independência quando a estrutura combinatória não permite.
+
+---
+
+# 10. TESTE QUI-QUADRADO
+
+Testar:
+
+$$
+H_0:p_i=0,60
+$$
+
+para as 25 dezenas.
+
+Calcular:
+
+$$
+\chi^2=
+\sum_i\frac{(O_i-E_i)^2}{E_i}
+$$
+
+Graus de liberdade:
+
+```text
+24
+```
+
+Retornar:
+
+```text
+statistic
+df
+pValue
+observed
+expected
+```
+
+Implementar cálculo independente de bibliotecas Python.
+
+Adicionar testes automatizados.
+
+---
+
+# 11. Z-SCORE LOCAL E GLOBAL
+
+Permitir:
+
+```text
+window = 30
+```
+
+configurável.
+
+Classificação padrão:
+
+```text
+QUENTE:
+Z > +1.0
+
+NEUTRA:
+-1.0 <= Z <= +1.0
+
+FRIA:
+Z < -1.0
+```
+
+Não fixar esse conceito exclusivamente na UI.
+
+O engine deve receber os thresholds.
+
+Calcular:
+
+```text
+global
+local
+```
+
+para todas as 25 dezenas.
+
+---
+
+# 12. VIABILIDADE DAS COTAS Q/N/F
+
+Antes de gerar qualquer jogo:
+
+calcular:
+
+```text
+hotAvailable
+neutralAvailable
+coldAvailable
+```
+
+e verificar:
+
+```text
+hotRequested
+neutralRequested
+coldRequested
+```
+
+Se as cotas forem impossíveis:
+
+NÃO produzir combinações inválidas.
+
+Exibir diagnóstico explícito.
+
+Exemplo:
+
+```text
+CONFIGURAÇÃO INVIÁVEL
+
+Categoria Quente disponível: 5
+Categoria Quente solicitada: 7
+
+Nenhuma solução pode satisfazer essa restrição.
+```
+
+Permitir ao usuário escolher explicitamente outra configuração.
+
+Nunca alterar automaticamente os parâmetros sem informar.
+
+---
+
+# 13. MARKOV
+
+Representar cada dezena como indicador:
+
+```text
+presente = 1
+ausente = 0
+```
+
+Calcular:
+
+$$
+P(X_t(j)=1\mid X_{t-1}(i)=1)
+$$
+
+para:
+
+```text
+i = 1..25
+j = 1..25
+```
+
+Produzir matriz 25×25.
+
+Calcular também:
+
+$$
+P(X_t(j)=0\mid X_{t-1}(i)=1)
+$$
+
+Exibir:
+
+* maiores retenções;
+* menores retenções;
+* maiores alternâncias;
+* menores alternâncias.
+
+Não chamar isso de "previsão".
+
+---
+
+# 14. ATRASOS
+
+Para cada dezena calcular:
+
+```text
+currentDelay
+meanDelay
+stdDelay
+maxDelay
+occurrences
+longestGap
+```
+
+Sinalizador:
+
+$$
+currentDelay > meanDelay + 1.5\sigma
+$$
+
+Retornar:
+
+```text
+NORMAL
+ATENÇÃO
+ACIMA DE 1.5σ
+```
+
+---
+
+# 15. COOCORRÊNCIA
+
+Criar:
+
+```text
+25 × 25
+```
+
+contendo:
+
+```text
+occurrenceCount
+relativeFrequency
+theoreticalBaseline
+difference
+standardizedDifference
+```
+
+Baseline de duas dezenas:
+
+$$
+P(i,j)=
+\frac{15}{25}\frac{14}{24}=0,35
+$$
+
+Separar:
+
+```text
+coocorrência absoluta
+excesso relativo
+desvio do baseline
+```
+
+Calcular as principais trincas.
+
+---
+
+# 16. COVARIÂNCIA
+
+Construir matriz de covariância dos indicadores binários.
+
+Documentar:
+
+* presença/ausência;
+* covariância;
+* dependência estrutural causada pela amostragem sem reposição.
+
+Não substituir covariância por coocorrência.
+
+---
+
+# 17. ENTROPIA
+
+Calcular:
+
+$$
+H(X)=-\sum p(x)\log_2p(x)
+$$
+
+para:
+
+```text
+linhas 5×5
+colunas 5×5
+```
+
+Identificar:
+
+```text
+linha com 0
+linha com 5
+coluna com 0
+coluna com 5
+```
+
+Esses elementos devem ser tratados como filtros configuráveis.
+
+Não afirmar que sejam impossíveis.
+
+---
+
+# 18. ESPAÇO AMOSTRAL DO GERADOR
+
+O espaço total é:
+
+$$
+C(25,15)=3.268.760
+$$
+
+Não usar um algoritmo ingênuo de:
+
+```text
+random()
+→ testa
+→ random()
+→ testa
+```
+
+como arquitetura principal.
+
+Implementar poda combinatória.
+
+Explorar bounds parciais para:
+
+* soma;
+* quantidade de primos;
+* quantidade de Fibonacci;
+* moldura;
+* paridade;
+* repetição;
+* Q/N/F.
+
+Podar candidatos impossíveis antes de completar a combinação quando tecnicamente vantajoso.
+
+---
+
+# 19. HARD CONSTRAINTS
+
+Padrão:
+
+```text
+Soma: 170..220
+
+Paridade:
+7P/8I
+ou
+8P/7I
+
+Primos:
+5..6
+
+Moldura:
+9..11
+
+Miolo:
+4..6
+
+Fibonacci:
+3..5
+
+Repetição:
+8..10
+```
+
+Todas configuráveis.
+
+Hard constraint NUNCA pode ser violada pelo scoring.
+
+---
+
+# 20. SOFT CONSTRAINTS
+
+Criar score composto usando:
+
+```text
+frequência
+Z-score
+atraso
+Markov
+coocorrência
+entropia
+dispersão
+cobertura
+diversidade
+```
+
+Cada peso deve ser explícito.
+
+Nenhum peso oculto.
+
+Exemplo:
+
+```typescript
+{
+  frequency: 1.0,
+  zScore: 1.0,
+  delay: 1.0,
+  markov: 0.5,
+  cooccurrence: 1.0,
+  entropy: 1.0,
+  dispersion: 1.5,
+  coverage: 2.0,
+  diversity: 2.0
+}
+```
+
+Os valores acima são apenas valores iniciais.
+
+Documentar o significado de cada score.
+
+---
+
+# 21. NORMALIZAÇÃO DOS SCORES
+
+Não somar métricas incompatíveis diretamente.
+
+Antes do score composto:
+
+* normalizar escalas;
+* evitar domínio excessivo de uma única variável;
+* documentar método de normalização.
+
+O scoring deve ser auditável.
+
+---
+
+# 22. HAMMING
+
+Representar uma combinação como vetor binário:
+
+```text
+25 posições
+```
+
+Calcular:
+
+$$
+d_H(A,B)
+$$
+
+Construir matriz completa dos jogos.
+
+Padrão inicial:
+
+```text
+dH_min >= 10
+```
+
+Permitir configuração.
+
+Se não houver solução suficiente:
+
+informar claramente.
+
+Nunca reduzir automaticamente a distância mínima.
+
+---
+
+# 23. COBERTURA
+
+O objetivo não é simplesmente maximizar diferença entre jogos.
+
+O algoritmo deverá buscar equilíbrio entre:
+
+```text
+diversidade
+cobertura de dezenas
+cobertura de pares
+overlap
+Hamming
+score estatístico
+```
+
+Implementar uma estratégia heurística de Covering Design.
+
+Documentar claramente:
+
+```text
+o que é matematicamente garantido
+o que é apenas heurística
+```
+
+---
+
+# 24. DETERMINISMO
+
+Utilizar PRNG com seed explícita.
+
+Exemplo:
+
+```text
+20261003
+```
+
+Garantia:
+
+```text
+mesmo dataset
++
+mesma configuração
++
+mesma seed
++
+mesma versão do engine
+=
+mesmo resultado
+```
+
+Registrar a seed no relatório.
+
+---
+
+# 25. WEB WORKER
+
+Toda operação potencialmente pesada deve ser capaz de executar fora da thread principal.
+
+Principalmente:
+
+```text
+análise combinatória
+scoring
+Hamming
+coocorrência
+trincas
+otimização
+```
+
+UI nunca deve congelar.
+
+Retornar progresso:
+
+```text
+status
+percentage
+processed
+valid
+bestScore
+elapsed
+```
+
+---
+
+# 26. INTERFACE
+
+Criar uma interface profissional com navegação:
+
+```text
+Dashboard
+Histórico
+Análise Estatística
+Markov
+Coocorrência
+Entropia
+Gerador
+Jogos
+Relatórios
+Configurações
+```
+
+---
+
+# 27. DASHBOARD
+
+Exibir:
+
+```text
+Concursos analisados
+Primeiro concurso
+Último concurso
+Data do último concurso
+Espaço amostral
+p-valor
+Média da soma
+Repetição média
+Quantidade de jogos gerados
+```
+
+---
+
+# 28. VOLANTE
+
+Criar visualização 5×5:
+
+```text
+01 02 03 04 05
+06 07 08 09 10
+11 12 13 14 15
+16 17 18 19 20
+21 22 23 24 25
+```
+
+Cada dezena deve mostrar sua classificação estatística quando disponível.
+
+---
+
+# 29. VISUALIZAÇÕES
+
+Implementar visualizações leves.
+
+Exemplos:
+
+```text
+Z-score
+frequência
+atrasos
+coocorrência
+Markov
+entropia
+Hamming
+```
+
+Não adicionar bibliotecas enormes somente para criar gráficos simples.
+
+Preferir SVG/Canvas ou biblioteca leve quando justificável.
+
+---
+
+# 30. GERADOR
+
+Configurações:
+
+```text
+Quantidade
+Soma
+Paridade
+Primos
+Moldura
+Fibonacci
+Repetição
+Q/N/F
+Hamming mínimo
+Pesos
+Seed
+```
+
+Botão principal:
+
+```text
+GERAR JOGOS
+```
+
+Antes da execução:
+
+```text
+pré-validação de viabilidade
+```
+
+Durante:
+
+```text
+progresso
+```
+
+Depois:
+
+```text
+auditoria de conformidade
+```
+
+---
+
+# 31. AUDITORIA DE CADA JOGO
+
+Cada combinação deve possuir:
+
+```text
+id
+dezenas
+sum
+evenCount
+oddCount
+primeCount
+frameCount
+coreCount
+fibonacciCount
+repeatedCount
+hotCount
+neutralCount
+coldCount
+score
+minHamming
+status
+```
+
+Status:
+
+```text
+VALID
+INVALID
+```
+
+Nunca apresentar combinação inválida como válida.
+
+---
+
+# 32. RELATÓRIO CIENTÍFICO
+
+Gerar relatório com:
+
+```text
+dataset
+quantidade de concursos
+período
+último concurso
+parâmetros
+thresholds
+seed
+versão do engine
+estatísticas
+teste chi-square
+Z-scores
+atrasos
+Markov
+coocorrência
+entropia
+jogos
+Hamming
+cobertura
+```
+
+---
+
+# 33. EXPORTAÇÃO
+
+Suportar:
+
+```text
+TXT
+CSV
+XLSX
+JSON
+```
+
+Incluir metadados da análise.
+
+---
+
+# 34. INDEXEDDB
+
+Criar persistência versionada.
+
+Entidades mínimas:
+
+```text
+datasets
+contests
+analyses
+configurations
+generatedGames
+reports
+backups
+```
+
+Separar:
+
+```text
+Repository
+Service
+UI
+```
+
+A UI não acessa IndexedDB diretamente.
+
+---
+
+# 35. BACKUP
+
+Exportar JSON completo.
+
+Importação deve:
+
+1. validar estrutura;
+2. validar versão;
+3. validar integridade;
+4. apresentar prévia;
+5. solicitar confirmação;
+6. executar transação segura;
+7. permitir rollback.
+
+Nunca apagar os dados atuais antes da confirmação de integridade do backup.
+
+---
+
+# 36. PWA
+
+Implementar:
+
+```text
+manifest
+service worker
+offline cache
+installability
+icons
+```
+
+O sistema deve funcionar offline após carregamento inicial.
+
+Evitar chamadas externas obrigatórias.
+
+---
+
+# 37. TAURI 2
+
+Preparar projeto para:
+
+```text
+Windows
+Android
+```
+
+Gerar:
+
+```text
+MSI
+EXE
+APK
+AAB
+```
+
+quando o ambiente estiver configurado.
+
+O frontend deve permanecer único.
+
+Não criar:
+
+```text
+frontend Windows
+frontend Android
+```
+
+separados.
+
+---
+
+# 38. TESTES MATEMÁTICOS
+
+Criar testes de referência para:
+
+```text
+C(25,15)
+probabilidade da combinação
+hipergeométrica
+esperanças
+variâncias
+chi-square
+Z-score
+atrasos
+Markov
+coocorrência
+entropia
+Hamming
+```
+
+---
+
+# 39. TESTES DE GERADOR
+
+Testar obrigatoriamente:
+
+```text
+15 dezenas
+sem duplicidade
+1..25
+soma
+paridade
+primos
+moldura
+Fibonacci
+repetição
+Q/N/F
+Hamming
+seed
+determinismo
+```
+
+---
+
+# 40. TESTE DE CONFIGURAÇÃO IMPOSSÍVEL
+
+Criar testes específicos para:
+
+```text
+Q disponível < Q solicitado
+N disponível < N solicitado
+F disponível < F solicitado
+```
+
+e outras combinações incompatíveis.
+
+O engine deve detectar infeasibility antes da geração.
+
+---
+
+# 41. TESTES DE REGRESSÃO
+
+Criar um fixture baseado no arquivo histórico real utilizado durante o desenvolvimento.
+
+Registrar resultados de referência.
+
+O futuro código não poderá alterar resultados conhecidos sem que a mudança seja explicitamente documentada.
+
+---
+
+# 42. QUALITY GATE
+
+Ao terminar cada fase:
+
+```text
+typecheck
+lint
+unit tests
+integration tests
+build
+```
+
+Corrigir falhas antes de avançar.
+
+Ao final:
+
+```text
+npm NÃO é requisito
+```
+
+Utilizar Bun no fluxo de desenvolvimento.
+
+---
+
+# 43. PERFORMANCE
+
+O aplicativo deve ser otimizado para:
+
+```text
+CPU modesta
+RAM limitada
+Android intermediário
+Windows antigo
+```
+
+Evitar:
+
+* dependências desnecessárias;
+* recomputações;
+* renderizações excessivas;
+* estruturas de dados gigantes;
+* processamento síncrono pesado na UI.
+
+Utilizar memoização/cache onde houver benefício real.
+
+---
+
+# 44. SEGURANÇA E INTEGRIDADE
+
+Validar todos os arquivos importados.
+
+Não executar conteúdo vindo do dataset.
+
+Sanitizar nomes e textos de exportação.
+
+Não confiar em valores calculados anteriormente.
+
+Após geração, recalcular a conformidade dos jogos.
+
+O resultado final deve ser validado por uma segunda camada independente do algoritmo de geração sempre que possível.
+
+---
+
+# 45. ARQUITETURA DE DUPLA VALIDAÇÃO
+
+Criar:
+
+```text
+Generator
+```
+
+e:
+
+```text
+Validator
+```
+
+separados.
+
+O Generator cria.
+
+O Validator verifica.
+
+Nunca confiar no Generator para declarar que sua própria saída está correta.
+
+---
+
+# 46. REPRODUTIBILIDADE CIENTÍFICA
+
+Cada análise deverá conter:
+
+```text
+datasetHash
+datasetSize
+contestStart
+contestEnd
+lastContest
+timestamp
+engineVersion
+schemaVersion
+windowSize
+hotThreshold
+coldThreshold
+weights
+seed
+```
+
+Isso permitirá reproduzir qualquer geração posteriormente.
+
+---
+
+# 47. HANDOFF ENTRE IAs
+
+ATENÇÃO:
+
+Este projeto será desenvolvido inicialmente com **Claude Opus 5.5 High** e posteriormente poderá continuar com **Gemini 3.8 Flash High**.
+
+Portanto, não dependa de contexto exclusivamente presente na conversa.
+
+Mantenha dentro do projeto:
+
+```text
+/docs/
+/docs/PROJECT_STATE.md
+/docs/ARCHITECTURE.md
+/docs/MATHEMATICAL_METHODS.md
+/docs/IMPLEMENTATION_STATUS.md
+/docs/DECISIONS.md
+/docs/KNOWN_ISSUES.md
+/docs/TEST_BASELINE.md
+/docs/HANDOFF_TO_NEXT_AGENT.md
+```
+
+Atualizar esses arquivos durante o desenvolvimento.
+
+---
+
+# 48. PROJECT_STATE.md
+
+Registrar:
+
+```text
+fase atual
+fase concluída
+arquivos criados
+arquivos modificados
+funcionalidades concluídas
+testes aprovados
+testes pendentes
+bugs conhecidos
+próxima etapa
+```
+
+---
+
+# 49. HANDOFF_TO_NEXT_AGENT.md
+
+Sempre que uma fase importante terminar, atualizar:
+
+```text
+ESTADO ATUAL
+O QUE FOI IMPLEMENTADO
+O QUE FOI VALIDADO
+O QUE NÃO DEVE SER ALTERADO
+PROBLEMAS CONHECIDOS
+PRÓXIMA TAREFA
+COMANDOS DE BUILD
+COMANDOS DE TESTE
+DECISÕES ARQUITETURAIS
+```
+
+O objetivo é permitir que outra IA assuma o projeto sem precisar reconstruir todo o contexto.
+
+---
+
+# 50. COMPORTAMENTO ESPECIAL DO CLAUDE OPUS
+
+Durante sua execução:
+
+### Use raciocínio profundo principalmente para:
+
+* arquitetura;
+* modelagem matemática;
+* identificação de inconsistências;
+* otimização do algoritmo;
+* revisão de segurança;
+* análise de performance;
+* testes;
+* regressão;
+* decisões que possam gerar dívida técnica.
+
+### Não gaste esforço excessivo com:
+
+* microalterações visuais;
+* CSS trivial;
+* texto cosmético;
+* renomeações sem impacto;
+* refatorações puramente estéticas.
+
+Priorize engenharia de alta qualidade.
+
+---
+
+# 51. REGRA DE MODIFICAÇÃO MÍNIMA
+
+Quando existir código funcional:
+
+não reescrever sem necessidade.
+
+Preferir:
+
+```text
+PATCH
+```
+
+a:
+
+```text
+REWRITE
+```
+
+Preservar:
+
+* funcionamento;
+* layout;
+* estilos;
+* filtros;
+* fluxos existentes;
+* dados;
+* compatibilidade.
+
+Somente alterar o necessário.
+
+---
+
+# 52. PROTOCOLO DE EXECUÇÃO
+
+Trabalhe em fases.
+
+## FASE 0
+
+Auditoria do projeto.
+
+Entregue:
+
+```text
+arquitetura atual
+problemas
+riscos
+dependências
+plano técnico
+```
+
+## FASE 1
+
+Fundação.
+
+## FASE 2
+
+Dados.
+
+## FASE 3
+
+Scientific Engine.
+
+## FASE 4
+
+Combinatorial Engine.
+
+## FASE 5
+
+Optimization.
+
+## FASE 6
+
+UI.
+
+## FASE 7
+
+Persistence.
+
+## FASE 8
+
+PWA.
+
+## FASE 9
+
+Tauri.
+
+## FASE 10
+
+Testes finais.
+
+---
+
+# 53. REGRA PARA CADA FASE
+
+Ao finalizar uma fase:
+
+1. Implementar.
+2. Testar.
+3. Corrigir.
+4. Executar build.
+5. Documentar.
+6. Atualizar PROJECT_STATE.md.
+7. Atualizar IMPLEMENTATION_STATUS.md.
+8. Atualizar HANDOFF_TO_NEXT_AGENT.md.
+
+Não declarar uma fase concluída apenas porque o código compila.
+
+---
+
+# 54. RESULTADO FINAL ESPERADO
+
+O usuário deverá conseguir:
+
+```text
+IMPORTAR HISTÓRICO
+↓
+VALIDAR
+↓
+ANALISAR
+↓
+EXAMINAR ESTATÍSTICAS
+↓
+CONFIGURAR PARÂMETROS
+↓
+VALIDAR VIABILIDADE
+↓
+GERAR JOGOS
+↓
+VALIDAR JOGOS
+↓
+ANALISAR HAMMING/COVERAGE
+↓
+SALVAR
+↓
+EXPORTAR
+↓
+BACKUP
+```
+
+Tudo funcionando offline.
+
+---
+
+# 55. REGRA FINAL
+
+Não entregue apenas código que compila.
+
+Antes de considerar o projeto concluído:
+
+1. executar aplicação;
+2. importar dataset de teste;
+3. executar análise;
+4. gerar jogos;
+5. validar jogos;
+6. verificar Hamming;
+7. verificar persistência;
+8. testar restauração;
+9. executar testes automatizados;
+10. executar build de produção.
+
+Depois produzir um relatório final:
+
+```text
+IMPLEMENTATION_FINAL_REPORT.md
+```
+
+contendo:
+
+```text
+Arquitetura
+Funcionalidades
+Testes
+Performance
+Limitações
+Riscos
+Pendências
+Instruções de execução
+Instruções de build
+Estado do projeto
+```
+
+Não inventar resultados.
+
+Não esconder falhas.
+
+Não ignorar inconsistências matemáticas.
+
+Não violar filtros para "conseguir gerar jogos".
+
+Quando uma configuração for matematicamente inviável, o sistema deve detectar e explicar a inviabilidade.
+
+O objetivo é construir um **software de engenharia combinatória auditável**, e não um simulador que apenas produza resultados visualmente convincentes.
